@@ -1,0 +1,60 @@
+# PACKAGES
+import numpy as np
+import requests
+import matplotlib.pyplot as plt
+from xgboost import XGBClassifier
+
+from sklearn.datasets import make_classification
+
+from sklearn.impute import SimpleImputer
+from joblib import parallel_backend
+
+from sklearn.model_selection import cross_val_score
+
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import accuracy_score, roc_auc_score, precision_recall_fscore_support as score
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.linear_model import LogisticRegression, LinearRegression
+from sklearn.neural_network import MLPClassifier
+from sklearn.svm import SVC
+from sklearn.model_selection import GridSearchCV, StratifiedKFold, cross_val_score, cross_val_score, train_test_split, RandomizedSearchCV
+
+
+import pandas as pd
+import seaborn as sns
+
+import requests
+
+
+# IMPORT DATASET
+import requests
+url_dict = {
+    'train.csv': 'http://drive.google.com/uc?export=download&id=1GhQRifwbBjX9sOFFJClT1_ECEVpXiVD5',
+    'test.csv': 'http://drive.google.com/uc?export=download&id=12ykDwsNAq1rkYslQD4eIQKfoRD88NsdI',
+}
+
+
+
+def download_file(file_path):
+    url = url_dict[file_path]
+    print('Start downloading...')
+    with requests.get(url, stream=True) as r:
+        r.raise_for_status()
+        with open(file_path, 'wb') as f:
+            for chunk in r.iter_content(chunk_size=1024 * 1024 * 1024):
+                f.write(chunk)
+    print('Complete')
+
+def load_data(filename):
+    """
+    Function loads data stored in the file filename and returns it as a numpy ndarray.
+
+    Inputs:
+        filename: GeneratorExitiven as a string.
+
+    Outputs:
+        Data contained in the file, returned as a numpy ndarray
+    """
+    return pd.read_csv(filename)
